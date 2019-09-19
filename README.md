@@ -1,9 +1,14 @@
 # Axon Spring Cloud Stream Extension
 
+[Axon](https://axoniq.io/) includes both a programming model as well as specialized infrastructure to provide enterprise ready operational support for the programming model - especially for scaling and distributing mission critical business applications.
+
+The programming model is provided by the popular [Axon Framework](https://axoniq.io/product-overview/axon-framework) while [Axon Server](https://axoniq.io/product-overview/axon-server) is the infrastructure part of Axon.
+
 
 Spring Cloud Stream is built on the concepts and patterns defined by [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/) and relies in its internal implementation on an already established and popular implementation of Enterprise Integration Patterns within the Spring portfolio of projects: [Spring Integration](https://projects.spring.io/spring-integration/) framework.
 
 So its only natural for it to support the foundation, semantics, and configuration options that are already established by Spring Integration
+
 
 Spring Cloud Stream already provides binding interfaces for typical message exchange contracts, which include:
 
@@ -82,7 +87,7 @@ axon:
 ```
 
 This extension provides the concept of [MultiSubscribableMessageSource](axon-spring-cloud-stream/src/main/java/org/axonframework/extensions/stream/outbound/MultiSubscribableMessageSource.java) which allows you to register processors on many message sources at the same time.
-This is a powerful feature which enables you to subscribe to Axon Server Event Store and RabbitMQ/Kafka simultaneously, providing a strangling migration path from one infrastructural component (for example: RabbitMQ) to another (for example: Axon Server), or making them work together in the overall systems landscape.
+**This is a powerful feature which enables you to subscribe to Axon Server Event Store and RabbitMQ/Kafka simultaneously, providing a strangling migration path from one infrastructural component (for example: RabbitMQ) to another (for example: Axon Server), or making them work together in the overall systems landscape.**
 
 ### Demos
 
@@ -234,10 +239,10 @@ This demo will run one Axon application that is connected to Axon Server to dist
 This extension will enable faster integration to all of them. 
 
 Spring Cloud Stream provides additional abstraction layer on top of this integrations and in some cases this can introduce some limitations.  
-For example, it does not provide programmatic way of managing Kafka `offset/seek` and in that respect Axon is limited to usage of `SubscribableMessageSource`s.
+For example, it does not provide programmatic way of managing Kafka `offset/seek` and because of that Axon is limited to usage of `SubscribableMessageSource`s.
 
-[Axon Kafka extension](https://docs.axoniq.io/reference-guide/extensions/kafka) is using Spring Kafka directly and we do not have this limitation. In this case we are using `StreamableMessageSource` which we can scale better.
-[Axon Spring AMQP extension](https://docs.axoniq.io/reference-guide/extensions/spring-amqp) is already using `SubscribableMessageSource`s because of the subscribable nature of RabbitMQ, and in that respect Axon Spring AMQP extension can be replaced with this extension without side effects.
+- [Axon Kafka extension](https://docs.axoniq.io/reference-guide/extensions/kafka) is using Spring Kafka directly and we do not have this limitation. In this case we are using `StreamableMessageSource` which we can scale better.
+- [Axon Spring AMQP extension](https://docs.axoniq.io/reference-guide/extensions/spring-amqp) is already using `SubscribableMessageSource`s because of the subscribable nature of RabbitMQ, and in that respect Axon Spring AMQP extension can be replaced with this extension without side effects.
 
 Try other binders and let us know how it fits your case !?
 
@@ -250,9 +255,9 @@ Try other binders and let us know how it fits your case !?
 ## Thanks
 
 Many thanks to [`Mehdi Chitforoosh`](https://github.com/mehdichitforoosh/), who is the initial author of this potential Axon Extension.
-You can track the PR that he provided here: https://github.com/AxonFramework/extension-springcloud/pull/5.
+You can track the [Pull Request](https://github.com/AxonFramework/extension-springcloud/pull/5)
 
-The idea of this project is to get more familiar with Axon Framework concepts (message source, event processors, event handlers) and to demonstrate how this concepts can fit best with Spring Cloud Stream project (pros and cons included).
+The idea of this project is to get more familiar with Axon Framework concepts (message source, event processors, event handlers) and to demonstrate how this concepts can fit best with Spring Cloud Stream project.
 Ideally, similar extensions can be created to support different type of connectors and/or JVM frameworks.
 
  

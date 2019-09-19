@@ -27,7 +27,7 @@ import static org.axonframework.messaging.Headers.MESSAGE_TIMESTAMP;
 
 /**
  * @author Mehdi Chitforoosh
- * @since 4.1
+ * @since 4.2
  */
 public class DefaultSpringMessageEventMessageConverter implements SpringMessageEventMessageConverter {
 

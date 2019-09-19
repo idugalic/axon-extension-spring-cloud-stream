@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
+ * Aggregate multiple subscribable message sources into one
+ *
  * @author Ivan Dugalic
  * @since 4.2
  */
@@ -18,6 +20,11 @@ public class MultiSubscribableMessageSource implements SubscribableMessageSource
     private final CopyOnWriteArrayList<SubscribableMessageSource> subscribableMessageSources = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Registration> registrations = new CopyOnWriteArrayList<>();
 
+    /**
+     * Aggregate multiple subscribable message sources into one
+     *
+     * @param subscribableMessageSources
+     */
     public MultiSubscribableMessageSource(List<SubscribableMessageSource> subscribableMessageSources) {
         this.subscribableMessageSources.addAll(subscribableMessageSources);
     }

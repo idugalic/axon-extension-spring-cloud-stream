@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * @author Mehdi Chitforoosh
- * @since 4.1
+ * @author Mehdi Chitforoosh & Ivan Dugalic
+ * @since 4.2
  */
 public class MessageProducer extends MessageProducerSupport {
 
@@ -22,7 +22,7 @@ public class MessageProducer extends MessageProducerSupport {
     private final SpringMessageEventMessageConverter converter;
 
     /**
-     * Initialize an adapter to forward messages from the given {@code messageSource} to the given {@code channel}.
+     * Initialize an adapter/message producer to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are not filtered; all messages are forwarded to the MessageChannel
      *
      * @param messageSource The event bus to subscribe to.
@@ -32,7 +32,7 @@ public class MessageProducer extends MessageProducerSupport {
     }
 
     /**
-     * Initialize an adapter to forward messages from the given {@code messageSource} to the given {@code channel}.
+     * Initialize an adapter/message producer to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are not filtered; all messages are forwarded to the MessageChannel
      *
      * @param messageSource The event bus to subscribe to.
@@ -44,7 +44,7 @@ public class MessageProducer extends MessageProducerSupport {
     }
 
     /**
-     * Initialize an adapter to forward messages from the given {@code messageSource} to the given {@code channel}.
+     * Initialize an adapter/message producer to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are filtered using the given {@code filter}.
      *
      * @param messageSource The source of messages to subscribe to.
@@ -56,7 +56,7 @@ public class MessageProducer extends MessageProducerSupport {
     }
 
     /**
-     * Initialize an adapter to forward messages from the given {@code messageSource} to the given {@code channel}.
+     * Initialize an adapter/message producer to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are filtered using the given {@code filter}.
      *
      * @param messageSource The source of messages to subscribe to.
@@ -71,7 +71,7 @@ public class MessageProducer extends MessageProducerSupport {
     }
 
     /**
-     * Subscribes this event listener to the event bus.
+     * Subscribes this event listener to the message source.
      */
     @Override
     protected void onInit() {

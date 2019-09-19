@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 
 /**
  * @author Mehdi Chitforoosh
- * @since 4.1
+ * @since 4.2
  */
 public class MessageProducingHandler extends AbstractMessageProducingHandler
         implements SubscribableMessageSource<EventMessage<?>> {
@@ -32,7 +32,7 @@ public class MessageProducingHandler extends AbstractMessageProducingHandler
      * Initialize a handler to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are not filtered; all messages are forwarded to the MessageChannel
      *
-     * @param messageSource The event bus to subscribe to.
+     * @param messageSource The message source (for example: eventBus) to subscribe to.
      */
     public MessageProducingHandler(SubscribableMessageSource<EventMessage<?>> messageSource) {
         this(messageSource, m -> true, new DefaultSpringMessageEventMessageConverter());
@@ -42,7 +42,7 @@ public class MessageProducingHandler extends AbstractMessageProducingHandler
      * Initialize a handler to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are not filtered; all messages are forwarded to the MessageChannel
      *
-     * @param messageSource The event bus to subscribe to.
+     * @param messageSource The message source (for example: eventBus) to subscribe to.
      * @param converter     The converter to use to convert event message into Spring message
      */
     public MessageProducingHandler(SubscribableMessageSource<EventMessage<?>> messageSource,
@@ -54,7 +54,7 @@ public class MessageProducingHandler extends AbstractMessageProducingHandler
      * Initialize a handler to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are filtered using the given {@code filter}.
      *
-     * @param messageSource The source of messages to subscribe to.
+     * @param messageSource The message source (for example: eventBus) to subscribe to.
      * @param filter        The filter that indicates which messages to forward.
      */
     public MessageProducingHandler(SubscribableMessageSource<EventMessage<?>> messageSource,
@@ -66,7 +66,7 @@ public class MessageProducingHandler extends AbstractMessageProducingHandler
      * Initialize a handler to forward messages from the given {@code messageSource} to the given {@code channel}.
      * Messages are filtered using the given {@code filter}.
      *
-     * @param messageSource The source of messages to subscribe to.
+     * @param messageSource The message source (for example: eventBus) to subscribe to.
      * @param filter        The filter that indicates which messages to forward.
      * @param converter     The converter to use to convert event message into Spring message
      */
@@ -91,8 +91,7 @@ public class MessageProducingHandler extends AbstractMessageProducingHandler
 
 
     /**
-     * If allows by the filter, wraps the given {@code event} in a {@link GenericMessage} ands sends it to the
-     * configured {@link MessageChannel}.
+     * Wraps the given {@code event} in a {@link GenericMessage} and sends it to the configured {@link MessageChannel}.
      *
      * @param events the events to handle
      */

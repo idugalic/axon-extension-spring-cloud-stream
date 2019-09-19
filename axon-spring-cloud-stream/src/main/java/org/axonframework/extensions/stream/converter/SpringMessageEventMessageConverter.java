@@ -20,7 +20,7 @@ import org.axonframework.eventhandling.EventMessage;
 import org.springframework.messaging.Message;
 
 /**
- * Interface describing a mechanism that converts AMQP Messages from an Axon Messages and vice versa.
+ * Interface describing a mechanism that converts Spring Messages from an Axon Messages and vice versa.
  *
  * @author Allard Buijze
  * @since 2.0
@@ -28,10 +28,10 @@ import org.springframework.messaging.Message;
 public interface SpringMessageEventMessageConverter {
 
     /**
-     * Creates an AMQPMessage from given {@code eventMessage}.
+     * Creates an Spring Message from given {@code eventMessage}.
      *
      * @param eventMessage The EventMessage to create the AMQP Message from
-     * @return an AMQP Message containing the data and characteristics of the Message to send to the AMQP Message
+     * @return an Spring Message containing the data and characteristics of the Message to send to the Spring Message
      * Broker.
      */
     Message<?> toSpringMessage(EventMessage<?> eventMessage);

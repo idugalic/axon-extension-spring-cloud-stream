@@ -17,7 +17,7 @@ import static java.util.Collections.singletonList;
  * Axon Message Source, which is actually a Spring Integration message handler
  *
  * @author Mehdi Chitforoosh & Ivan Dugalic
- * @since 4.1
+ * @since 4.2
  */
 public class MessageHandler extends AbstractMessageHandler implements SubscribableMessageSource<EventMessage<?>> {
 
@@ -26,7 +26,7 @@ public class MessageHandler extends AbstractMessageHandler implements Subscribab
 
 
     /**
-     * Creates the MessageHandler, which is SubscribableMessageSource as well
+     * Creates the MessageHandler
      *
      * @param eventMessageConverter The message converter responsible for converting from/to Spring messages
      */
