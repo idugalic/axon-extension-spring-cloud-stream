@@ -1,0 +1,27 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: axon-spring-cloud-stream-demo-rabbitmq-sink
+  rabbitmq:
+    addresses: localhost:5672
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: axon-output
+          group: school-events
+axon:
+  eventhandling:
+    processors:
+      StudentEventHandlerMulti:
+        mode: subscribing
+        source: multiMessageSource
+      StudentEventHandlerAMQP:
+        mode: subscribing
+        source: amqpMessageSource
+

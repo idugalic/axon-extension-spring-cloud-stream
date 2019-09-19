@@ -1,0 +1,26 @@
+server:
+  port: 8089
+spring:
+  application:
+    name: axon-spring-cloud-stream-demo-kafka-processor
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+      bindings:
+        input:
+          #         Topic
+          destination: axon-output
+          #         Group
+          group: school-events
+        output:
+          #         Topic
+          destination: axon-output
+axon:
+  eventhandling:
+    processors:
+      StudentEventHandlerKafka:
+        mode: subscribing
+        source: kafkaMessageSource
+

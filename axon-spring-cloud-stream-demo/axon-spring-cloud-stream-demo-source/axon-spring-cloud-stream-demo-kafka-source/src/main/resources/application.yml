@@ -1,0 +1,17 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: axon-spring-cloud-stream-demo-kafka-source
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+      bindings:
+        output:
+          #         Topic
+          destination: axon-output
+
+
+

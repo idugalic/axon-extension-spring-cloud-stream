@@ -1,0 +1,18 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: axon-spring-cloud-stream-demo-rabbitmq-source
+  rabbitmq:
+    addresses: localhost:5672
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        output:
+          #         Exchange
+          destination: axon-output
+          content-type: application/json

@@ -1,0 +1,26 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: axon-spring-cloud-stream-demo-rabbitmq-processor
+  rabbitmq:
+    addresses: localhost:5672
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: axon-output
+          group: school-events
+        output:
+          destination: axon-output
+axon:
+  eventhandling:
+    processors:
+      StudentEventHandlerAMQP:
+        mode: subscribing
+        source: amqpMessageSource
+

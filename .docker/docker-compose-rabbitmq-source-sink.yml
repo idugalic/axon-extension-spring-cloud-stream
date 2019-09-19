@@ -1,0 +1,71 @@
+version: '3.7'
+
+services:
+  axon-spring-cloud-stream-demo-rabbitmq-source:
+    image: axon-spring-cloud-stream-demo-rabbitmq-source
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://axon-spring-cloud-stream-demo-source-db:5432/demo
+      - SPRING_DATASOURCE_USERNAME=demouser
+      - SPRING_DATASOURCE_PASSWORD=thepassword
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - AXON_AXONSERVER_SERVERS=axon-server-source
+      - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    ports:
+      - '8088:8088'
+    depends_on:
+      - axon-spring-cloud-stream-demo-source-db
+      - axon-server-source
+      - rabbitmq
+  axon-spring-cloud-stream-demo-rabbitmq-sink:
+    image: axon-spring-cloud-stream-demo-rabbitmq-sink
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://axon-spring-cloud-stream-demo-sink-db:5432/demo
+      - SPRING_DATASOURCE_USERNAME=demouser
+      - SPRING_DATASOURCE_PASSWORD=thepassword
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - AXON_AXONSERVER_SERVERS=axon-server-sink
+      - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    ports:
+      - '8080:8080'
+    depends_on:
+      - axon-spring-cloud-stream-demo-sink-db
+      - axon-server-sink
+      - rabbitmq
+  axon-spring-cloud-stream-demo-source-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=drestaurant
+      - POSTGRES_USER=demouser
+      - POSTGRES_PASSWORD=thepassword
+  axon-spring-cloud-stream-demo-sink-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=drestaurant
+      - POSTGRES_USER=demouser
+      - POSTGRES_PASSWORD=thepassword
+  axon-server-source:
+    image: axoniq/axonserver
+    environment:
+      - AXONSERVER_NAME=axon-server-source
+      - AXONSERVER_HOSTNAME=axon-server-source
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+  axon-server-sink:
+    image: axoniq/axonserver
+    environment:
+      - AXONSERVER_HOSTNAME=axon-server-sink
+      - AXONSERVER_NAME=axon-server-sink
+    ports:
+      - '8025:8024'
+      - '8125:8124'
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    hostname: rabbitmq
+    expose:
+      - "5672"
+    ports:
+      - "15672:15672"
+

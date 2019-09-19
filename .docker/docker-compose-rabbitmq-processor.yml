@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  axon-spring-cloud-stream-demo-rabbitmq-processor:
+    image: axon-spring-cloud-stream-demo-rabbitmq-processor
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://axon-spring-cloud-stream-demo-processor-db:5432/demo
+      - SPRING_DATASOURCE_USERNAME=demouser
+      - SPRING_DATASOURCE_PASSWORD=thepassword
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - AXON_AXONSERVER_SERVERS=axon-server-processor
+      - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    ports:
+      - '8090:8090'
+    depends_on:
+      - axon-spring-cloud-stream-demo-processor-db
+      - axon-server-processor
+      - rabbitmq
+  axon-spring-cloud-stream-demo-processor-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=drestaurant
+      - POSTGRES_USER=demouser
+      - POSTGRES_PASSWORD=thepassword
+  axon-server-processor:
+    image: axoniq/axonserver
+    environment:
+      - AXONSERVER_NAME=axon-server-processor
+      - AXONSERVER_HOSTNAME=axon-server-processor
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    hostname: rabbitmq
+    expose:
+      - "5672"
+    ports:
+      - "15672:15672"
