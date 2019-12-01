@@ -1,4 +1,5 @@
-# Axon Spring Cloud Stream Extension
+# [projects](http://idugalic.github.io/projects)/axon-extension-spring-cloud-stream
+
 
 [Axon](https://axoniq.io/) includes both a programming model as well as specialized infrastructure to provide enterprise ready operational support for the programming model - especially for scaling and distributing mission critical business applications.
 
