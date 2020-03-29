@@ -1,4 +1,4 @@
-package org.axonframework.extensions.cloud.stream.demo.source.coreapi;
+package org.axonframework.extensions.cloud.stream.demo.coreapi;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

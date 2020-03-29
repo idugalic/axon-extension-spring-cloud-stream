@@ -2,6 +2,7 @@ package org.axonframework.extensions.cloud.stream.demo.processor;
 
 import org.axonframework.config.EventProcessingConfigurer;
 import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.async.SequentialPerAggregatePolicy;
 import org.axonframework.extensions.stream.converter.DefaultSpringMessageEventMessageConverter;
 import org.axonframework.extensions.stream.converter.SpringMessageEventMessageConverter;
 import org.axonframework.extensions.stream.processor.MessageProducingHandler;
@@ -27,7 +28,7 @@ public class AxonStreamProcessorApplication {
 
     @Bean
     public SpringMessageEventMessageConverter springMessageEventMessageConverter(Serializer serializer) {
-        return new DefaultSpringMessageEventMessageConverter(serializer);
+        return new DefaultSpringMessageEventMessageConverter(serializer, SequentialPerAggregatePolicy.instance());
     }
 
     @Bean

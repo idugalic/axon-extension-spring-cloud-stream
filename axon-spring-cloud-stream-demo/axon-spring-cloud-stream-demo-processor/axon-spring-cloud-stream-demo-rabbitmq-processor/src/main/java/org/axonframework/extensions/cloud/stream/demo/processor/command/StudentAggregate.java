@@ -2,8 +2,8 @@ package org.axonframework.extensions.cloud.stream.demo.processor.command;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.extensions.cloud.stream.demo.processor.coreapi.CreateStudentCommand;
-import org.axonframework.extensions.cloud.stream.demo.processor.coreapi.StudentCreatedEvent;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.CreateStudentCommand;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.StudentCreatedEvent;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 

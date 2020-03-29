@@ -2,7 +2,7 @@ package org.axonframework.extensions.cloud.stream.demo.source.query;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.extensions.cloud.stream.demo.source.coreapi.StudentCreatedEvent;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.StudentCreatedEvent;
 import org.springframework.stereotype.Component;
 
 @Component

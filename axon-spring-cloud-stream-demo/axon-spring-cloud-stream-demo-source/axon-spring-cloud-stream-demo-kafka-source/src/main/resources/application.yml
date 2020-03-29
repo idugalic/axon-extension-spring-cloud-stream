@@ -10,8 +10,13 @@ spring:
           brokers: localhost
       bindings:
         output:
-          #         Topic
+          # Topic
           destination: axon-output
+          producer:
+            # The preceding configuration uses the default partitioning (key.hashCode() % partitionCount).
+            # This may or may not provide a suitably balanced algorithm, depending on the key values.
+            partition-key-expression: headers['axon-message-key']
+            partition-count: 10
 
 
 

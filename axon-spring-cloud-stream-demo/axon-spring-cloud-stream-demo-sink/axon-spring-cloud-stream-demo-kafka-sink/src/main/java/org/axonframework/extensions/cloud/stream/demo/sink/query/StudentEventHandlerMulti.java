@@ -2,7 +2,8 @@ package org.axonframework.extensions.cloud.stream.demo.sink.query;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.extensions.cloud.stream.demo.sink.coreapi.StudentCreatedEvent;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.StudentCreatedEvent;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.TaskAssignedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,5 +15,11 @@ public class StudentEventHandlerMulti {
         System.out.println("Multi - Id in sink : " + event.getId());
         System.out.println("Multi - Name in sink: " + event.getName());
         System.out.println("Multi - Age in sink: " + event.getAge());
+    }
+
+    @EventHandler
+    public void on(TaskAssignedEvent event) {
+        System.out.println("Axon Server - Id in sink : " + event.getId());
+        System.out.println("Axon Server - Name in sink: " + event.getTask());
     }
 }

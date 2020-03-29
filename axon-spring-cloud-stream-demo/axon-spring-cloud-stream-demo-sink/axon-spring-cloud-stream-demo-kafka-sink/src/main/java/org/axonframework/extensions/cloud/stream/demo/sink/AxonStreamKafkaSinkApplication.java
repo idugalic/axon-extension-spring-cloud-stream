@@ -1,6 +1,7 @@
 package org.axonframework.extensions.cloud.stream.demo.sink;
 
 import org.axonframework.config.EventProcessingConfigurer;
+import org.axonframework.eventhandling.async.SequentialPerAggregatePolicy;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.extensions.stream.converter.DefaultSpringMessageEventMessageConverter;
 import org.axonframework.extensions.stream.converter.SpringMessageEventMessageConverter;
@@ -8,6 +9,7 @@ import org.axonframework.extensions.stream.outbound.MessageHandler;
 import org.axonframework.extensions.stream.outbound.MultiSubscribableMessageSource;
 import org.axonframework.messaging.interceptors.LoggingInterceptor;
 import org.axonframework.serialization.Serializer;
+import org.axonframework.serialization.json.JacksonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -29,8 +31,8 @@ public class AxonStreamKafkaSinkApplication {
     }
 
     @Bean
-    public SpringMessageEventMessageConverter springMessageEventMessageConverter(Serializer serializer) {
-        return new DefaultSpringMessageEventMessageConverter(serializer);
+    public SpringMessageEventMessageConverter springMessageEventMessageConverter() {
+        return new DefaultSpringMessageEventMessageConverter(JacksonSerializer.builder().build(), SequentialPerAggregatePolicy.instance());
     }
 
     @Bean

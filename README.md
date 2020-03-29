@@ -12,14 +12,13 @@ So its only natural for it to support the foundation, semantics, and configurati
 
 Spring Cloud Stream already provides binding interfaces for typical message exchange contracts, which include:
 
-
-1. `Source`: Message producer (provides the destination to which the produced message (`event`) is sent)
-2. `Sink`: Message consumer (provides the destination from which the message (`event`) is consumed)
-3. `Processor`: Encapsulates both the `sink` and the `source` contracts by exposing two destinations that allow consumption and production of messages (`events`).
+1. `Sink` / Message consumer (provides the destination from which the message (`event`) is consumed)
+2. `Source` / Message producer (provides the destination to which the produced message (`event`) is sent)
+3. `Processor` / Encapsulates both the `Sink` and the `Source` contracts by exposing two destinations that allow consumption and production of messages (`events`)
 
 This Axon extension provides implementation of these contracts so your Axon application can act as `Sink` (handling `events` from RabbitMQ, Kafka, other binders supported by Spring Cloud Stream), `Source` (forwarding `events` to RabbitMQ, Kafka, other binders supported by Spring Cloud Stream) or both (as `Processor`).
 
-## Sink
+## Sink *application*
 
 Attaching the amqpMessageSource/message handler to `INPUT` channel of `Sink`
 
@@ -95,7 +94,7 @@ This extension provides the concept of [MultiSubscribableMessageSource](axon-spr
  - [axon-spring-cloud-stream-demo-rabbitmq-sink](axon-spring-cloud-stream-demo/axon-spring-cloud-stream-demo-sink/axon-spring-cloud-stream-demo-rabbitmq-sink)
 
 
-## Source
+## Source *application*
 
 Attaching the `OUTPUT` channel of `Sink` to message producer
 
@@ -131,7 +130,7 @@ This MessageProducer supports only `SubscribableMessageSource` at the moment. Yo
  - [axon-spring-cloud-stream-demo-kafka-source](axon-spring-cloud-stream-demo/axon-spring-cloud-stream-demo-source/axon-spring-cloud-stream-demo-kafka-source)
  - [axon-spring-cloud-stream-demo-rabbitmq-source](axon-spring-cloud-stream-demo/axon-spring-cloud-stream-demo-source/axon-spring-cloud-stream-demo-rabbitmq-source)
 
-Demos are Dockerized and you can run them in the following way:
+This demo will run two Axon applications (`sink` and `source`) that that are connected to the same binder (RabbitMQ/Kafka) instance, so they will form a "stream" and start talking to each other.
 
 ```bash
 mvn clean verify jib:dockerBuild
@@ -144,9 +143,8 @@ or
 docker-compose -f .docker/docker-compose-rabbitmq-source-sink.yml up -d
 ```
 
-This demo will run two Axon applications (`sink` and `source`) that that are connected to different Axon Servers in order to demonstrate that `sink` application will subscribe to events that are published/forwarded to RabbitMQ/Kafka from the `source` application.
 
-## Processor
+## Processor *application*
 
 Attaching the message producing **handler** to `INPUT` channel of `Processor`, and `OUTPUT` channel of `Processor` to message **producing** handler
 
@@ -208,7 +206,7 @@ axon:
  - [axon-spring-cloud-stream-demo-kafka-processor](axon-spring-cloud-stream-demo/axon-spring-cloud-stream-demo-processor/axon-spring-cloud-stream-demo-kafka-processor)
  - [axon-spring-cloud-stream-demo-rabbitmq-processor](axon-spring-cloud-stream-demo/axon-spring-cloud-stream-demo-processor/axon-spring-cloud-stream-demo-rabbitmq-processor)
 
-Demos are Dockerized and you can run them in the following way:
+This demo will run one Axon application that will forward all events published on Axon Server Event Bus (`SubscribableMessageSource`) to RabbitMQ/Kafka, and subscribe to events from RabbitMQ/Kafka in addition.
 
 ```bash
 mvn clean verify jib:dockerBuild
@@ -221,7 +219,6 @@ or
 docker-compose -f .docker/docker-compose-rabbitmq-processor.yml up -d
 ```
 
-This demo will run one Axon application that is connected to Axon Server to distribute messages (commands, queries and events). It will forward all events that are published to Axon Server Event Bus (`SubscribableMessageSource`) to RabbitMQ/Kafka channels, and subscribe to events from RabbitMQ/Kafka in addition.
 
 ## Different Binders
 
@@ -239,10 +236,7 @@ This demo will run one Axon application that is connected to Axon Server to dist
 This extension will enable faster integration to all of them. 
 
 Spring Cloud Stream provides additional abstraction layer on top of this integrations and in some cases this can introduce some limitations.  
-For example, it does not provide programmatic way of managing Kafka `offset/seek` and because of that Axon is limited to usage of `SubscribableMessageSource`s.
-
-- [Axon Kafka extension](https://docs.axoniq.io/reference-guide/extensions/kafka) is using Spring Kafka directly and we do not have this limitation. In this case we are using `StreamableMessageSource` which we can scale better.
-- [Axon Spring AMQP extension](https://docs.axoniq.io/reference-guide/extensions/spring-amqp) is already using `SubscribableMessageSource`s because of the subscribable nature of RabbitMQ, and in that respect Axon Spring AMQP extension can be replaced with this extension without side effects.
+For example, it does not provide programmatic way of managing Kafka `offset/seek`.
 
 Try other binders and let us know how it fits your case !?
 
@@ -257,7 +251,7 @@ Try other binders and let us know how it fits your case !?
 Many thanks to [`Mehdi Chitforoosh`](https://github.com/mehdichitforoosh/), who is the initial author of this potential Axon Extension.
 You can track the [Pull Request](https://github.com/AxonFramework/extension-springcloud/pull/5)
 
-The idea of this project is to get more familiar with Axon Framework concepts (message source, event processors, event handlers) and to demonstrate how this concepts can fit best with Spring Cloud Stream project.
+The idea of this project is to get more familiar with Axon Framework concepts (message source, event processors, event handlers) and to demonstrate how this concepts can fit best with Spring Cloud Stream and Integration project.
 Ideally, similar extensions can be created to support different type of connectors and/or JVM frameworks.
 
  

@@ -84,8 +84,12 @@ public class MessageProducingHandler extends AbstractMessageProducingHandler
      * Subscribes this event listener to the message source.
      */
     @Override
-    protected void onInit() throws Exception {
-        super.onInit();
+    protected void onInit() {
+        try {
+            super.onInit();
+        } catch (Exception e) {
+           throw new RuntimeException(e);
+        }
         this.messageSource.subscribe(this::handle);
     }
 

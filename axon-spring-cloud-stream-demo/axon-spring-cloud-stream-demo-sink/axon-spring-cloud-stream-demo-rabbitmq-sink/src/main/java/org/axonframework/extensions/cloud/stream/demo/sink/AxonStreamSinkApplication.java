@@ -1,6 +1,7 @@
 package org.axonframework.extensions.cloud.stream.demo.sink;
 
 import org.axonframework.config.EventProcessingConfigurer;
+import org.axonframework.eventhandling.async.SequentialPerAggregatePolicy;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.extensions.stream.converter.DefaultSpringMessageEventMessageConverter;
 import org.axonframework.extensions.stream.converter.SpringMessageEventMessageConverter;
@@ -30,7 +31,7 @@ public class AxonStreamSinkApplication {
 
     @Bean
     public SpringMessageEventMessageConverter springMessageEventMessageConverter(Serializer serializer) {
-        return new DefaultSpringMessageEventMessageConverter(serializer);
+        return new DefaultSpringMessageEventMessageConverter(serializer, SequentialPerAggregatePolicy.instance());
     }
 
     // Defining the `amqpMessageSource` Spring bean.

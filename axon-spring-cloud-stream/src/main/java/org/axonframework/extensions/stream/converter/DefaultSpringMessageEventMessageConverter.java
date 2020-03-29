@@ -5,6 +5,8 @@ import org.axonframework.common.DateTimeUtils;
 import org.axonframework.eventhandling.EventMessage;
 import org.axonframework.eventhandling.GenericDomainEventMessage;
 import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.eventhandling.async.SequencingPolicy;
+import org.axonframework.eventhandling.async.SequentialPerAggregatePolicy;
 import org.axonframework.messaging.Headers;
 import org.axonframework.messaging.MetaData;
 import org.axonframework.serialization.LazyDeserializingObject;
@@ -26,20 +28,32 @@ import static org.axonframework.common.DateTimeUtils.formatInstant;
 import static org.axonframework.messaging.Headers.MESSAGE_TIMESTAMP;
 
 /**
- * @author Mehdi Chitforoosh
+ * @author Mehdi Chitforoosh & Ivan Dugalic
  * @since 4.2
  */
 public class DefaultSpringMessageEventMessageConverter implements SpringMessageEventMessageConverter {
 
+    public static final String AXON_MESSAGE_KEY = "axon-message-key";
+
     private final Serializer serializer;
+    private final SequencingPolicy<? super EventMessage<?>> sequencingPolicy;
+
 
     public DefaultSpringMessageEventMessageConverter() {
         this.serializer = JacksonSerializer.builder().build();
+        this.sequencingPolicy = SequentialPerAggregatePolicy.instance();
     }
 
-    public DefaultSpringMessageEventMessageConverter(Serializer serializer) {
+    public DefaultSpringMessageEventMessageConverter(final Serializer serializer, final SequencingPolicy<? super EventMessage<?>> sequencingPolicy) {
         Assert.notNull(serializer, () -> "Serializer may not be null");
+        Assert.notNull(sequencingPolicy, () -> "Sequencing Policy may not be null");
         this.serializer = serializer;
+        this.sequencingPolicy = sequencingPolicy;
+    }
+
+    private String sequenceIdentifier(EventMessage<?> eventMessage) {
+        Object sequenceIdentifier = sequencingPolicy.getSequenceIdentifierFor(eventMessage);
+        return sequenceIdentifier != null ? sequenceIdentifier.toString() : null;
     }
 
     @Override
@@ -54,6 +68,7 @@ public class DefaultSpringMessageEventMessageConverter implements SpringMessageE
                 headers.put(k, v);
             }
         });
+        headers.put(AXON_MESSAGE_KEY, sequenceIdentifier(eventMessage));
         return new GenericMessage<>(serializedObject.getData(),
                                     new DefaultSpringMessageEventMessageConverter.SettableTimestampMessageHeaders(
                                             headers,

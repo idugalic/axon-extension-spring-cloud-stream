@@ -1,7 +1,7 @@
 package org.axonframework.extensions.cloud.stream.demo.sink.web;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.extensions.cloud.stream.demo.sink.coreapi.CreateStudentCommand;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.CreateStudentCommand;
 import org.axonframework.extensions.stream.converter.SpringMessageEventMessageConverter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

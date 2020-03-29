@@ -1,6 +1,7 @@
 package org.axonframework.extensions.cloud.stream.demo.source;
 
 import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.async.SequentialPerAggregatePolicy;
 import org.axonframework.extensions.stream.converter.DefaultSpringMessageEventMessageConverter;
 import org.axonframework.extensions.stream.converter.SpringMessageEventMessageConverter;
 import org.axonframework.extensions.stream.inbound.MessageProducer;
@@ -23,7 +24,7 @@ public class AxonStreamRabbitMQSourceApplication {
 
     @Bean
     public SpringMessageEventMessageConverter springMessageEventMessageConverter(Serializer serializer) {
-        return new DefaultSpringMessageEventMessageConverter(serializer);
+        return new DefaultSpringMessageEventMessageConverter(serializer, SequentialPerAggregatePolicy.instance());
     }
 
     @Bean

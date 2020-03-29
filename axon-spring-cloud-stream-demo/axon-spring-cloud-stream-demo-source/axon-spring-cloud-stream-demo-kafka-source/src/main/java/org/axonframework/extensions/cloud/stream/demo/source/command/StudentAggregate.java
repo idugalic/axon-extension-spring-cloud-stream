@@ -2,8 +2,10 @@ package org.axonframework.extensions.cloud.stream.demo.source.command;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.extensions.cloud.stream.demo.source.coreapi.CreateStudentCommand;
-import org.axonframework.extensions.cloud.stream.demo.source.coreapi.StudentCreatedEvent;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.AssignTaskToStudentCommand;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.CreateStudentCommand;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.StudentCreatedEvent;
+import org.axonframework.extensions.cloud.stream.demo.coreapi.TaskAssignedEvent;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
@@ -21,6 +23,14 @@ public class StudentAggregate {
     @CommandHandler
     public StudentAggregate(CreateStudentCommand command) {
         apply(new StudentCreatedEvent(command.getId(), command.getName(), command.getAge()));
+    }
+
+    public StudentAggregate() {
+    }
+
+    @CommandHandler
+    public void on(AssignTaskToStudentCommand command){
+        apply(new TaskAssignedEvent(command.getId(), command.getTask()));
     }
 
     @EventSourcingHandler

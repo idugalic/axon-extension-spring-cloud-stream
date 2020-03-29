@@ -10,13 +10,18 @@ spring:
           brokers: localhost
       bindings:
         input:
-          #         Topic
+          #         Topic (Since partitions are natively handled by Kafka, no special configuration is needed on the consumer side)
           destination: axon-output
           #         Group
           group: school-events
         output:
           #         Topic
           destination: axon-output
+          producer:
+            # The preceding configuration uses the default partitioning (key.hashCode() % partitionCount).
+            # This may or may not provide a suitably balanced algorithm, depending on the key values.
+            partition-key-expression: headers['axon-message-key']
+            partition-count: 10
 axon:
   eventhandling:
     processors:

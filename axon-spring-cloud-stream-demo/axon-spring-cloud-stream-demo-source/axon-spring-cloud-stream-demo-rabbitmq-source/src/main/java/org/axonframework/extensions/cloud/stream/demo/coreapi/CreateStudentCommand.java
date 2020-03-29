@@ -1,4 +1,4 @@
-package org.axonframework.extensions.cloud.stream.demo.sink.coreapi;
+package org.axonframework.extensions.cloud.stream.demo.coreapi;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
