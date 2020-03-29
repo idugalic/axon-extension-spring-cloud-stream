@@ -59,7 +59,31 @@ Event Processors come in roughly two forms: Subscribing and Tracking. The Subscr
 >`StreamableMessageSource` and Tracking Event Processors are preferred due to the multi-threaded options you get with it.
 RabbitMQ is more of Subscribable nature. Kafka is more of Streamable nature, but Spring Cloud Stream does not provide programmatic way of handling Kafka `seek/offset` at the moment.
 
->**This extension is supporting only `SubscribableMessageSource` at the moment.**
+>**This extension is supporting `SubscribableMessageSource` only.**
+>The subscribable stream leaves all the ordering specifics in the hands of brokers (Kafka, for example), which means the events should be published on a consistent partition to ensure ordering.
+>To control events of a certain group to be placed in a dedicated partition, based on aggregate identifier for example, the message converter's SequencingPolicy can be utilized.
+>Default sequencing policy is `SequentialPerAggregatePolicy`, which will add `aggregateIdentifier` of axon event to the header of the kafka message as `axon-message-key` which can be further used to determine `partition-key-expression`:
+```yaml
+server:
+  port: 8085
+spring:
+  application:
+    name: axon-spring-cloud-stream-demo-kafka-source
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+      bindings:
+        output:
+          # Topic
+          destination: axon-output
+          producer:
+            # The preceding configuration uses the default partitioning (key.hashCode() % partitionCount).
+            # This may or may not provide a suitably balanced algorithm, depending on the key values.
+            partition-key-expression: headers['axon-message-key']
+            partition-count: 10
+```
 
 To assign event handlers to named processors you should name your processor with the `@ProcessingGroup` annotation
 
